@@ -1,59 +1,206 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 CarDekho Clone — Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A RESTful API backend for a CarDekho-inspired car listing platform, built with **Laravel 12** and **PHP 8.2+**. Supports car listings, brand management, user authentication, and contact form functionality.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠️ Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Technology | Version |
+|---|---|
+| PHP | ^8.2 |
+| Laravel | ^12.0 |
+| Authentication | Laravel Sanctum |
+| Database | SQLite (default) / MySQL |
+| Storage | Local / AWS S3 |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ✨ Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- 🔐 User Registration & Login (Laravel Sanctum token-based auth)
+- 🚘 Car Listings — Add, View, Filter by Type, Delete
+- 🏷️ Brand Management — List and Add brands
+- 📩 Contact Form — Submit and View contact messages
+- 🛡️ Admin Panel Routes with middleware protection
+- 🗑️ Soft Deletes support
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 📁 Project Structure
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```
+carDekho-clone-backend/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/          # Admin-specific controllers
+│   │   │   ├── AuthController.php
+│   │   │   ├── CarController.php
+│   │   │   ├── BrandController.php
+│   │   │   └── ContactController.php
+│   │   └── Middleware/
+│   │       └── AdminAuth.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Car.php
+│   │   ├── Brand.php
+│   │   └── Contact.php
+│   └── Providers/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── routes/
+│   └── api.php
+├── public/
+│   └── images/
+├── .env.example
+└── composer.json
+```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🚀 Installation & Setup
 
-## Contributing
+### 1. Clone the Repository
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git clone https://github.com/your-username/carDekho-clone-backend.git
+cd carDekho-clone-backend
+```
 
-## Code of Conduct
+### 2. Install Dependencies
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer install
+```
 
-## Security Vulnerabilities
+### 3. Environment Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## License
+### 4. Configure Database
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+By default, the project uses **SQLite**. Edit `.env` if you want to use MySQL:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cardekho_db
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+### 5. Run Migrations
+
+```bash
+php artisan migrate
+```
+
+### 6. Start the Server
+
+```bash
+php artisan serve
+```
+
+The API will be available at: `http://localhost:8000`
+
+---
+
+## 📡 API Endpoints
+
+### Auth
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| POST | `/api/register` | Register new user | No |
+| POST | `/api/login` | Login user | No |
+| POST | `/api/logout` | Logout user | ✅ Yes |
+
+### Cars
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/cars` | Get all cars |
+| GET | `/api/cars/{type}` | Get cars by type |
+| GET | `/api/cars/type/{type}` | Get cars by type (alt route) |
+| POST | `/api/cars` | Add a new car |
+| DELETE | `/api/cars/{id}` | Delete a car |
+
+### Brands
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/brands` | Get all brands |
+| POST | `/api/brands` | Add a new brand |
+
+### Contact
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/contact` | Submit a contact message |
+| GET | `/api/contact` | Get all contact messages |
+
+---
+
+## 🔑 Authentication
+
+This project uses **Laravel Sanctum** for token-based API authentication.
+
+After login, include the token in request headers:
+
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+---
+
+## ⚙️ Environment Variables
+
+Key variables to configure in `.env`:
+
+```env
+APP_NAME=Laravel
+APP_ENV=local
+APP_URL=http://localhost
+
+DB_CONNECTION=sqlite   # or mysql
+
+FILESYSTEM_DISK=local  # or s3 for AWS
+
+MAIL_MAILER=log        # configure for real email
+```
+
+Refer to `.env.example` for the full list.
+
+---
+
+## 🧪 Running Tests
+
+```bash
+php artisan test
+```
+
+---
+
+## 📦 Requirements
+
+- PHP >= 8.2
+- Composer
+- SQLite (default) or MySQL/MariaDB
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first.
+
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
